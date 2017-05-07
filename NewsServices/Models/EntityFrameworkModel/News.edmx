@@ -1,0 +1,440 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="newsdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Comments">
+          <Key>
+            <PropertyRef Name="CommentId" />
+          </Key>
+          <Property Name="CommentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="NewsId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CommentText" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserRegistraionId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TimeStamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Favourite">
+          <Key>
+            <PropertyRef Name="FavId" />
+          </Key>
+          <Property Name="FavId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserRegistrationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CategoriesId" Type="int" Nullable="false" />
+          <Property Name="CategoriesName" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Likes">
+          <Key>
+            <PropertyRef Name="LikeId" />
+          </Key>
+          <Property Name="LikeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserRegistrationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="NewsId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsLike" Type="bit" />
+          <Property Name="IsDislike" Type="bit" />
+          <Property Name="TimeStamp" Type="datetime" />
+        </EntityType>
+        <EntityType Name="NewsDetails">
+          <Key>
+            <PropertyRef Name="NewsId" />
+          </Key>
+          <Property Name="NewsId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="NewsPhotoUrl" Type="varchar(max)" />
+          <Property Name="NewsTitle" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NewsDescription" Type="nvarchar(max)" />
+          <Property Name="CreatedTs" Type="datetime" />
+          <Property Name="NewsById" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="UserDetail">
+          <Key>
+            <PropertyRef Name="UserRegistrationId" />
+          </Key>
+          <Property Name="UserRegistrationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="EmailId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MobileNo" Type="varchar" MaxLength="50" />
+          <Property Name="Gender" Type="varchar" MaxLength="10" />
+          <Property Name="ThumbnailUrl" Type="varchar" MaxLength="100" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="creatTs" Type="datetime" Nullable="false" />
+          <Property Name="userType" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Comments_NewsDetails">
+          <End Role="NewsDetails" Type="Self.NewsDetails" Multiplicity="1" />
+          <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsDetails">
+              <PropertyRef Name="NewsId" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="NewsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comments_UserDetail">
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="1" />
+          <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="UserRegistrationId" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="UserRegistraionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Favourite_UserDetail">
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="1" />
+          <End Role="Favourite" Type="Self.Favourite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="UserRegistrationId" />
+            </Principal>
+            <Dependent Role="Favourite">
+              <PropertyRef Name="UserRegistrationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Likes_NewsDetails1">
+          <End Role="NewsDetails" Type="Self.NewsDetails" Multiplicity="1" />
+          <End Role="Likes" Type="Self.Likes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsDetails">
+              <PropertyRef Name="NewsId" />
+            </Principal>
+            <Dependent Role="Likes">
+              <PropertyRef Name="NewsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Likes_UserDetail1">
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="1" />
+          <End Role="Likes" Type="Self.Likes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="UserRegistrationId" />
+            </Principal>
+            <Dependent Role="Likes">
+              <PropertyRef Name="UserRegistrationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="newsdbModelStoreContainer">
+          <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Favourite" EntityType="Self.Favourite" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Likes" EntityType="Self.Likes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NewsDetails" EntityType="Self.NewsDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserDetail" EntityType="Self.UserDetail" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Comments_NewsDetails" Association="Self.FK_Comments_NewsDetails">
+            <End Role="NewsDetails" EntitySet="NewsDetails" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comments_UserDetail" Association="Self.FK_Comments_UserDetail">
+            <End Role="UserDetail" EntitySet="UserDetail" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Favourite_UserDetail" Association="Self.FK_Favourite_UserDetail">
+            <End Role="UserDetail" EntitySet="UserDetail" />
+            <End Role="Favourite" EntitySet="Favourite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Likes_NewsDetails1" Association="Self.FK_Likes_NewsDetails1">
+            <End Role="NewsDetails" EntitySet="NewsDetails" />
+            <End Role="Likes" EntitySet="Likes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Likes_UserDetail1" Association="Self.FK_Likes_UserDetail1">
+            <End Role="UserDetail" EntitySet="UserDetail" />
+            <End Role="Likes" EntitySet="Likes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="newsdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="newsdbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Comments" EntityType="newsdbModel.Comment" />
+          <EntitySet Name="Favourites" EntityType="newsdbModel.Favourite" />
+          <EntitySet Name="Likes" EntityType="newsdbModel.Like" />
+          <EntitySet Name="NewsDetails" EntityType="newsdbModel.NewsDetail" />
+          <EntitySet Name="sysdiagrams" EntityType="newsdbModel.sysdiagram" />
+          <EntitySet Name="UserDetails" EntityType="newsdbModel.UserDetail" />
+          <AssociationSet Name="FK_Comments_NewsDetails" Association="newsdbModel.FK_Comments_NewsDetails">
+            <End Role="NewsDetail" EntitySet="NewsDetails" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comments_UserDetail" Association="newsdbModel.FK_Comments_UserDetail">
+            <End Role="UserDetail" EntitySet="UserDetails" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Favourite_UserDetail" Association="newsdbModel.FK_Favourite_UserDetail">
+            <End Role="UserDetail" EntitySet="UserDetails" />
+            <End Role="Favourite" EntitySet="Favourites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Likes_NewsDetails1" Association="newsdbModel.FK_Likes_NewsDetails1">
+            <End Role="NewsDetail" EntitySet="NewsDetails" />
+            <End Role="Like" EntitySet="Likes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Likes_UserDetail1" Association="newsdbModel.FK_Likes_UserDetail1">
+            <End Role="UserDetail" EntitySet="UserDetails" />
+            <End Role="Like" EntitySet="Likes" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="CommentId" />
+          </Key>
+          <Property Name="CommentId" Type="Guid" Nullable="false" />
+          <Property Name="NewsId" Type="Guid" Nullable="false" />
+          <Property Name="CommentText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserRegistraionId" Type="Guid" Nullable="false" />
+          <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="NewsDetail" Relationship="newsdbModel.FK_Comments_NewsDetails" FromRole="Comment" ToRole="NewsDetail" />
+          <NavigationProperty Name="UserDetail" Relationship="newsdbModel.FK_Comments_UserDetail" FromRole="Comment" ToRole="UserDetail" />
+        </EntityType>
+        <EntityType Name="Favourite">
+          <Key>
+            <PropertyRef Name="FavId" />
+          </Key>
+          <Property Name="FavId" Type="Guid" Nullable="false" />
+          <Property Name="UserRegistrationId" Type="Guid" Nullable="false" />
+          <Property Name="CategoriesId" Type="Int32" Nullable="false" />
+          <Property Name="CategoriesName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserDetail" Relationship="newsdbModel.FK_Favourite_UserDetail" FromRole="Favourite" ToRole="UserDetail" />
+        </EntityType>
+        <EntityType Name="Like">
+          <Key>
+            <PropertyRef Name="LikeId" />
+          </Key>
+          <Property Name="LikeId" Type="Guid" Nullable="false" />
+          <Property Name="UserRegistrationId" Type="Guid" Nullable="false" />
+          <Property Name="NewsId" Type="Guid" Nullable="false" />
+          <Property Name="IsLike" Type="Boolean" />
+          <Property Name="IsDislike" Type="Boolean" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="NewsDetail" Relationship="newsdbModel.FK_Likes_NewsDetails1" FromRole="Like" ToRole="NewsDetail" />
+          <NavigationProperty Name="UserDetail" Relationship="newsdbModel.FK_Likes_UserDetail1" FromRole="Like" ToRole="UserDetail" />
+        </EntityType>
+        <EntityType Name="NewsDetail">
+          <Key>
+            <PropertyRef Name="NewsId" />
+          </Key>
+          <Property Name="NewsId" Type="Guid" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="NewsPhotoUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="NewsTitle" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NewsDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedTs" Type="DateTime" Precision="3" />
+          <Property Name="NewsById" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Comments" Relationship="newsdbModel.FK_Comments_NewsDetails" FromRole="NewsDetail" ToRole="Comment" />
+          <NavigationProperty Name="Likes" Relationship="newsdbModel.FK_Likes_NewsDetails1" FromRole="NewsDetail" ToRole="Like" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="UserDetail">
+          <Key>
+            <PropertyRef Name="UserRegistrationId" />
+          </Key>
+          <Property Name="UserRegistrationId" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EmailId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MobileNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ThumbnailUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="creatTs" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="userType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Comments" Relationship="newsdbModel.FK_Comments_UserDetail" FromRole="UserDetail" ToRole="Comment" />
+          <NavigationProperty Name="Favourites" Relationship="newsdbModel.FK_Favourite_UserDetail" FromRole="UserDetail" ToRole="Favourite" />
+          <NavigationProperty Name="Likes" Relationship="newsdbModel.FK_Likes_UserDetail1" FromRole="UserDetail" ToRole="Like" />
+        </EntityType>
+        <Association Name="FK_Comments_NewsDetails">
+          <End Type="newsdbModel.NewsDetail" Role="NewsDetail" Multiplicity="1" />
+          <End Type="newsdbModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsDetail">
+              <PropertyRef Name="NewsId" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="NewsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comments_UserDetail">
+          <End Type="newsdbModel.UserDetail" Role="UserDetail" Multiplicity="1" />
+          <End Type="newsdbModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="UserRegistrationId" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="UserRegistraionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Favourite_UserDetail">
+          <End Type="newsdbModel.UserDetail" Role="UserDetail" Multiplicity="1" />
+          <End Type="newsdbModel.Favourite" Role="Favourite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="UserRegistrationId" />
+            </Principal>
+            <Dependent Role="Favourite">
+              <PropertyRef Name="UserRegistrationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Likes_NewsDetails1">
+          <End Type="newsdbModel.NewsDetail" Role="NewsDetail" Multiplicity="1" />
+          <End Type="newsdbModel.Like" Role="Like" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsDetail">
+              <PropertyRef Name="NewsId" />
+            </Principal>
+            <Dependent Role="Like">
+              <PropertyRef Name="NewsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Likes_UserDetail1">
+          <End Type="newsdbModel.UserDetail" Role="UserDetail" Multiplicity="1" />
+          <End Type="newsdbModel.Like" Role="Like" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="UserRegistrationId" />
+            </Principal>
+            <Dependent Role="Like">
+              <PropertyRef Name="UserRegistrationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="newsdbModelStoreContainer" CdmEntityContainer="newsdbEntities">
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="newsdbModel.Comment">
+              <MappingFragment StoreEntitySet="Comments">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="UserRegistraionId" ColumnName="UserRegistraionId" />
+                <ScalarProperty Name="CommentText" ColumnName="CommentText" />
+                <ScalarProperty Name="NewsId" ColumnName="NewsId" />
+                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Favourites">
+            <EntityTypeMapping TypeName="newsdbModel.Favourite">
+              <MappingFragment StoreEntitySet="Favourite">
+                <ScalarProperty Name="CategoriesName" ColumnName="CategoriesName" />
+                <ScalarProperty Name="CategoriesId" ColumnName="CategoriesId" />
+                <ScalarProperty Name="UserRegistrationId" ColumnName="UserRegistrationId" />
+                <ScalarProperty Name="FavId" ColumnName="FavId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Likes">
+            <EntityTypeMapping TypeName="newsdbModel.Like">
+              <MappingFragment StoreEntitySet="Likes">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="IsDislike" ColumnName="IsDislike" />
+                <ScalarProperty Name="IsLike" ColumnName="IsLike" />
+                <ScalarProperty Name="NewsId" ColumnName="NewsId" />
+                <ScalarProperty Name="UserRegistrationId" ColumnName="UserRegistrationId" />
+                <ScalarProperty Name="LikeId" ColumnName="LikeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NewsDetails">
+            <EntityTypeMapping TypeName="newsdbModel.NewsDetail">
+              <MappingFragment StoreEntitySet="NewsDetails">
+                <ScalarProperty Name="NewsById" ColumnName="NewsById" />
+                <ScalarProperty Name="CreatedTs" ColumnName="CreatedTs" />
+                <ScalarProperty Name="NewsDescription" ColumnName="NewsDescription" />
+                <ScalarProperty Name="NewsTitle" ColumnName="NewsTitle" />
+                <ScalarProperty Name="NewsPhotoUrl" ColumnName="NewsPhotoUrl" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="NewsId" ColumnName="NewsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="newsdbModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserDetails">
+            <EntityTypeMapping TypeName="newsdbModel.UserDetail">
+              <MappingFragment StoreEntitySet="UserDetail">
+                <ScalarProperty Name="userType" ColumnName="userType" />
+                <ScalarProperty Name="creatTs" ColumnName="creatTs" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="ThumbnailUrl" ColumnName="ThumbnailUrl" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserRegistrationId" ColumnName="UserRegistrationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
