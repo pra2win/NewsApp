@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -12,7 +13,8 @@ namespace NewsWeb.Comman
 {
     public class ServerBAL
     {
-        public static Uri baseUri = new Uri("http://45.35.4.250/newsapp/");
+        private static string newsAddUrl = ConfigurationManager.AppSettings["baseUrl"].ToString();
+        private static Uri baseUri = new Uri(newsAddUrl);
 
         public static UserDetailResponseModel AuthenticateUser(LoginReq req)
         {
