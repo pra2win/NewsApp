@@ -104,6 +104,7 @@ namespace NewsServices.Models
         public string DisLikeCount { get; set; }
         public bool selfLike { get; set; } 
         public bool selfDisLike { get; set; }
+        public string AppVersion { get; set; }
     }
     public enum categories
     {

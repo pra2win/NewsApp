@@ -3,6 +3,7 @@ using NewsServices.Models;
 using NewsServices.Models.EntityFrameworkModel;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -12,12 +13,12 @@ namespace NewsServices.Controllers
 {
     public class NewsController : ApiController
     {
-
+        
         #region News List
         [HttpPost]
         public List<newsListReponse> NewsList(Filter filt)
-
         {
+            string appVersion = (string)ConfigurationManager.AppSettings["AppVersion"];
             List<newsListReponse> response = new List<newsListReponse>();
             newsdbEntities db = new newsdbEntities();
             if (string.IsNullOrEmpty(filt.SearchText))
@@ -50,8 +51,8 @@ namespace NewsServices.Controllers
                         selfLike = selfLike,
                         selfDisLike = selfDisLike,
                         LikeCount = likeCount.ToString(),
-                        DisLikeCount = disLikeCount.ToString()
-
+                        DisLikeCount = disLikeCount.ToString(),
+                        AppVersion=appVersion
                     });
                 }
             }
@@ -86,8 +87,8 @@ namespace NewsServices.Controllers
                             selfLike = selfLike,
                             selfDisLike = selfDisLike,
                             LikeCount = likeCount.ToString(),
-                            DisLikeCount = disLikeCount.ToString()
-
+                            DisLikeCount = disLikeCount.ToString(),
+                            AppVersion = appVersion
                         });
                     }
 
