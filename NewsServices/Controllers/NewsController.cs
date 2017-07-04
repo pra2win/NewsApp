@@ -16,8 +16,9 @@ namespace NewsServices.Controllers
         
         #region News List
         [HttpPost]
-        public List<newsListReponse> NewsList(Filter filt)
+        public NewsListModel NewsList(Filter filt)
         {
+            NewsListModel newslist = new NewsListModel();
             string appVersion = (string)ConfigurationManager.AppSettings["AppVersion"];
             List<newsListReponse> response = new List<newsListReponse>();
             newsdbEntities db = new newsdbEntities();
@@ -51,8 +52,7 @@ namespace NewsServices.Controllers
                         selfLike = selfLike,
                         selfDisLike = selfDisLike,
                         LikeCount = likeCount.ToString(),
-                        DisLikeCount = disLikeCount.ToString(),
-                        AppVersion=appVersion
+                        DisLikeCount = disLikeCount.ToString()
                     });
                 }
             }
@@ -87,15 +87,15 @@ namespace NewsServices.Controllers
                             selfLike = selfLike,
                             selfDisLike = selfDisLike,
                             LikeCount = likeCount.ToString(),
-                            DisLikeCount = disLikeCount.ToString(),
-                            AppVersion = appVersion
+                            DisLikeCount = disLikeCount.ToString()
                         });
                     }
 
                 }
             }
-
-            return response;
+            newslist.NewsList = response;
+            newslist.AppVersion = appVersion;
+            return newslist;
         }
 
         public List<newsListReponse> GeneralNewsList()
@@ -134,7 +134,7 @@ namespace NewsServices.Controllers
         #region News Details
         [HttpGet]
         [Route("api/news/GetNewsDetails/{newsId}")]
-        public NewsDetail GetNewsDetails(Guid newsId)
+        public NewsDetailResponse GetNewsDetails(Guid newsId)
         {
             newsdbEntities db = new newsdbEntities();
             List<Comment> comments = new List<Comment>();
@@ -146,8 +146,37 @@ namespace NewsServices.Controllers
 
             newsEntity.Comments = cmm;
             newsEntity.Likes = lkk;
+            NewsDetailResponse resp = new NewsDetailResponse();
+            List<CommentsModel> comm = new List<CommentsModel>();
+            foreach(var c in cmm)
+            {
+                var CommUser = db.UserDetails.FirstOrDefault(u => u.UserRegistrationId == c.UserRegistraionId);
+                comm.Add(new CommentsModel()
+                {
+                    CommentByThumbnailUrl = CommUser.ThumbnailUrl,
+                    CommentByUserName = CommUser.FirstName + " " + CommUser.LastName,
+                    CommentText=c.CommentText,
+                    TimeStamp=c.TimeStamp
+                });
+            }
 
-            return newsEntity;
+          
+            resp.commentsList = comm;
+            resp.CategoryId = newsEntity.CategoryId;
+            resp.CreatedTs = newsEntity.CreatedTs;
+            resp.isActive = newsEntity.isActive;
+            resp.NewsDescription = newsEntity.NewsDescription;
+            resp.NewsTitle = newsEntity.NewsTitle;
+            resp.NewsPhotoUrl = newsEntity.NewsPhotoUrl;
+            resp.NewsId = newsEntity.NewsId;
+          //  resp.DisLikeCount = "";
+            //resp.LikeCount = "";
+            resp.selfDisLike = false;
+            resp.selfLike = false;
+            
+            resp.NewsById = newsEntity.NewsById;
+
+            return resp;
         }
 
         #endregion

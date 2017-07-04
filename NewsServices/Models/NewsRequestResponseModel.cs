@@ -102,9 +102,41 @@ namespace NewsServices.Models
         public System.Guid NewsById { get; set; }
         public string LikeCount { get; set; }
         public string DisLikeCount { get; set; }
-        public bool selfLike { get; set; } 
+        public bool selfLike { get; set; }
         public bool selfDisLike { get; set; }
         public string AppVersion { get; set; }
+    }
+
+    public class NewsListModel
+    {
+        public List<newsListReponse> NewsList { get; set; }
+        public string AppVersion { get; set; }
+    }
+
+    public class NewsDetailResponse
+    {
+        public System.Guid NewsId { get; set; }
+        public int CategoryId { get; set; }
+        public string NewsPhotoUrl { get; set; }
+        public string NewsTitle { get; set; }
+        public string NewsDescription { get; set; }
+        public Nullable<System.DateTime> CreatedTs { get; set; }
+        public System.Guid NewsById { get; set; }
+        public Nullable<bool> IsNotify { get; set; }
+        public bool isActive { get; set; }
+
+        public List<CommentsModel> commentsList { get; set; }
+        public string LikeCount { get; set; }
+        public string DisLikeCount { get; set; }
+        public bool selfLike { get; set; }
+        public bool selfDisLike { get; set; }
+    }
+    public class CommentsModel
+    {
+        public string CommentByUserName { get; set; }
+        public string CommentText { get; set; }
+        public string CommentByThumbnailUrl { get; set; }
+        public DateTime TimeStamp { get; set; }
     }
     public enum categories
     {
