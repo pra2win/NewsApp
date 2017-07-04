@@ -13,7 +13,7 @@ namespace NewsServices.Models.EntityFrameworkModel
     using System;
     using System.Collections.Generic;
 
-    [JsonObject(IsReference = true)] 
+    [JsonObject(IsReference = true)]
     public partial class NewsDetail
     {
         public NewsDetail()
@@ -29,6 +29,8 @@ namespace NewsServices.Models.EntityFrameworkModel
         public string NewsDescription { get; set; }
         public Nullable<System.DateTime> CreatedTs { get; set; }
         public System.Guid NewsById { get; set; }
+        public Nullable<bool> IsNotify { get; set; }
+        public bool isActive { get; set; }
     
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Like> Likes { get; set; }

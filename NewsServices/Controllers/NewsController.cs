@@ -23,7 +23,7 @@ namespace NewsServices.Controllers
             newsdbEntities db = new newsdbEntities();
             if (string.IsNullOrEmpty(filt.SearchText))
             {
-                var resp = db.NewsDetails.Where(t => t.CreatedTs > filt.HistoryFrom).OrderByDescending(t => t.CreatedTs).ToList();
+                var resp = db.NewsDetails.Where(t => t.CreatedTs > filt.HistoryFrom && t.isActive).OrderByDescending(t => t.CreatedTs).ToList();
 
                 foreach (var n in resp)
                 {
@@ -58,7 +58,7 @@ namespace NewsServices.Controllers
             }
             else
             {
-                var resp = db.NewsDetails.Where(n => n.NewsTitle.Contains(filt.SearchText) || n.NewsDescription.Contains(filt.SearchText) && n.CreatedTs > filt.HistoryFrom).OrderByDescending(t => t.CreatedTs).ToList();
+                var resp = db.NewsDetails.Where(n => n.NewsTitle.Contains(filt.SearchText) || n.NewsDescription.Contains(filt.SearchText) && n.CreatedTs > filt.HistoryFrom && n.isActive).OrderByDescending(t => t.CreatedTs).ToList();
                 if (resp != null)
                 {
                     foreach (var n in resp)
@@ -97,6 +97,38 @@ namespace NewsServices.Controllers
 
             return response;
         }
+
+        public List<newsListReponse> GeneralNewsList()
+        {
+            List<newsListReponse> response = new List<newsListReponse>();
+            newsdbEntities db = new newsdbEntities();
+            {
+                var resp = db.NewsDetails.OrderByDescending(t => t.CreatedTs).ToList();
+
+                foreach (var n in resp)
+                {
+                    bool selfLike = false, selfDisLike = false;
+                    int likeCount = 0, disLikeCount = 0;
+                    response.Add(new newsListReponse()
+                    {
+                        CategoryId = n.CategoryId,
+                        CreatedTs = n.CreatedTs,
+                        NewsById = n.NewsById,
+                        NewsDescription = n.NewsDescription,
+                        NewsId = n.NewsId,
+                        NewsPhotoUrl = n.NewsPhotoUrl,
+                        NewsTitle = n.NewsTitle,
+                        selfLike = selfLike,
+                        selfDisLike = selfDisLike,
+                        LikeCount = likeCount.ToString(),
+                        DisLikeCount = disLikeCount.ToString(),
+                    });
+                }
+            }
+
+            return response;
+        }
+
         #endregion
 
         #region News Details

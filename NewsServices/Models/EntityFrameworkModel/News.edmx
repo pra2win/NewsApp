@@ -46,6 +46,8 @@
           <Property Name="NewsDescription" Type="nvarchar(max)" />
           <Property Name="CreatedTs" Type="datetime" />
           <Property Name="NewsById" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsNotify" Type="bit" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -240,6 +242,8 @@
           <Property Name="NewsDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreatedTs" Type="DateTime" Precision="3" />
           <Property Name="NewsById" Type="Guid" Nullable="false" />
+          <Property Name="IsNotify" Type="Boolean" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Comments" Relationship="newsdbModel.FK_Comments_NewsDetails" FromRole="NewsDetail" ToRole="Comment" />
           <NavigationProperty Name="Likes" Relationship="newsdbModel.FK_Likes_NewsDetails1" FromRole="NewsDetail" ToRole="Like" />
         </EntityType>
@@ -375,6 +379,8 @@
           <EntitySetMapping Name="NewsDetails">
             <EntityTypeMapping TypeName="newsdbModel.NewsDetail">
               <MappingFragment StoreEntitySet="NewsDetails">
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="IsNotify" ColumnName="IsNotify" />
                 <ScalarProperty Name="NewsById" ColumnName="NewsById" />
                 <ScalarProperty Name="CreatedTs" ColumnName="CreatedTs" />
                 <ScalarProperty Name="NewsDescription" ColumnName="NewsDescription" />

@@ -5,12 +5,12 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="ddabb312f9474999968dba21b3cf000e" Name="Diagram1">
-        <EntityTypeShape EntityType="newsdbModel.Comment" Width="1.5" PointX="6" PointY="5" />
-        <EntityTypeShape EntityType="newsdbModel.Favourite" Width="1.5" PointX="3" PointY="11.5" />
-        <EntityTypeShape EntityType="newsdbModel.Like" Width="1.5" PointX="3" PointY="4.875" />
-        <EntityTypeShape EntityType="newsdbModel.NewsDetail" Width="1.5" PointX="3.75" PointY="0.75" />
-        <EntityTypeShape EntityType="newsdbModel.sysdiagram" Width="1.5" PointX="0.75" PointY="1.375" />
-        <EntityTypeShape EntityType="newsdbModel.UserDetail" Width="1.5" PointX="0.75" PointY="4.125" />
+        <EntityTypeShape EntityType="newsdbModel.Comment" Width="1.5" PointX="3" PointY="6.125" />
+        <EntityTypeShape EntityType="newsdbModel.Favourite" Width="1.5" PointX="3" PointY="9.5" />
+        <EntityTypeShape EntityType="newsdbModel.Like" Width="1.5" PointX="6" PointY="6" />
+        <EntityTypeShape EntityType="newsdbModel.NewsDetail" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="newsdbModel.sysdiagram" Width="1.5" PointX="2.75" PointY="2.625" />
+        <EntityTypeShape EntityType="newsdbModel.UserDetail" Width="1.5" PointX="0.75" PointY="5.375" />
         <AssociationConnector Association="newsdbModel.FK_Comments_NewsDetails" />
         <AssociationConnector Association="newsdbModel.FK_Comments_UserDetail" />
         <AssociationConnector Association="newsdbModel.FK_Favourite_UserDetail" />
