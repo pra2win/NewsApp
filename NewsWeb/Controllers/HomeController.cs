@@ -10,7 +10,6 @@ using System.Web.Mvc;
 
 namespace NewsWeb.Controllers
 {
-
     public class HomeController : Controller
     {
         [Authorize]
@@ -65,6 +64,14 @@ namespace NewsWeb.Controllers
             var result = ServerBAL.AddNews(request);
 
             return result;
+        }
+
+        [Authorize]
+        [CustomAuthorizer]
+        public ActionResult NewsList()
+        {
+            var result = ServerBAL.NewsList();
+            return PartialView("_NewsList",result);
         }
     }
 }

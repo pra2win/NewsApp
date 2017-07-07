@@ -28,8 +28,8 @@
             <ul class="nav navbar-nav">
                 @if (Request.IsAuthenticated)
                 {
-                    <li class="active"><a href="#">Add News</a></li>
-                    <li><a href="#">News List</a></li>
+                    <li class="active"><a href="/Home/Index">Add News</a></li>
+                    <li><a href="#" onclick="LoadNewsList();">News List</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Setting <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
@@ -133,89 +133,98 @@
     </div><!-- /.container-fluid -->
 </nav>
 <div id="ajaxPartialView">
-    <form id="addNewsForm" class="form-horizontal" onsubmit="AddNews(event);">
-        <fieldset>
+    <div id="AddNewsDiv">
+        <form id="addNewsForm" class="form-horizontal" onsubmit="AddNews(event);">
+            <fieldset>
 
-            <!-- Form Name -->
-            <legend>Add News</legend>
+                <!-- Form Name -->
+                <legend>Add News</legend>
 
-            <!-- Text input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="txtNewsTitle">Title</label>
-                <div class="col-md-4">
-                    <input id="txtNewsTitle" name="txtNewsTitle" type="text" placeholder="Please Enter News Title" class="form-control input-md" required="">
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="txtNewsTitle">Title</label>
+                    <div class="col-md-4">
+                        <input id="txtNewsTitle" name="txtNewsTitle" type="text" placeholder="Please Enter News Title" class="form-control input-md" required="">
 
-                </div>
-            </div>
-
-            <!-- Textarea -->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="txtNewsDesc">Description</label>
-                <div class="col-md-4">
-                    <textarea class="form-control" id="txtNewsDesc" name="txtNewsDesc" placeholder="Please Enter News Description"></textarea>
-                </div>
-            </div>
-
-            <!-- Select Basic -->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="Optcategories">Categories</label>
-                <div class="col-md-4">
-                    <select id="Optcategories" name="Optcategories" class="form-control">
-                        <option value="1">Global</option>
-                        <option value="2">Politics</option>
-                        <option value="3">Entertainment</option>
-                        <option value="4">sport</option>
-                        <option value="5">Life Style</option>
-                        <option value="6">Gadgets</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- File Button -->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="newsImg">News Image</label>
-                <div class="col-md-4">
-                    <input id=" newsimg" name="newsImg" class="input-file" type="file" accept="image/x-png,image/gif,image/jpeg">
+                    </div>
                 </div>
 
-            </div>
-            <div class="form-group">
-                <div class="col-md-8 text-center">
-                    <p>OR</p>
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="newsImg">News Image</label>
-                <div class="col-md-4">
-                    <input id="newsImgUrl" name="newsImgUrl" placeholder="Please Enter Image Url!" class="form-control" type="text">
+                <!-- Textarea -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="txtNewsDesc">Description</label>
+                    <div class="col-md-4">
+                        <textarea class="form-control" id="txtNewsDesc" name="txtNewsDesc" placeholder="Please Enter News Description"></textarea>
+                    </div>
                 </div>
 
-            </div>
-
-            <!-- Button -->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="saveNews"></label>
-                <div class="col-md-4">
-                    <input type="submit" id="saveNews" name="saveNews" class="btn btn-info">
+                <!-- Select Basic -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="Optcategories">Categories</label>
+                    <div class="col-md-4">
+                        <select id="Optcategories" name="Optcategories" class="form-control">
+                            <option value="1">Global</option>
+                            <option value="2">Politics</option>
+                            <option value="3">Entertainment</option>
+                            <option value="4">sport</option>
+                            <option value="5">Life Style</option>
+                            <option value="6">Gadgets</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
 
-        </fieldset>
-    </form>
-    <div class="Logdding">
-        <div class="modal" id="loaddingModal" style="display: none">
-            <div class="center">
-                <img alt="" src="~/img/ring.gif" />
-            </div>
+                <!-- File Button -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="newsImg">News Image</label>
+                    <div class="col-md-4">
+                        <input id=" newsimg" name="newsImg" class="input-file" type="file" accept="image/x-png,image/gif,image/jpeg">
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="col-md-8 text-center">
+                        <p>OR</p>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="newsImg">News Image</label>
+                    <div class="col-md-4">
+                        <input id="newsImgUrl" name="newsImgUrl" placeholder="Please Enter Image Url!" class="form-control" type="text">
+                    </div>
+
+                </div>
+
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="saveNews"></label>
+                    <div class="col-md-4">
+                        <input type="submit" id="saveNews" name="saveNews" class="btn btn-info">
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+    </div>
+
+    <div id="NewsListDiv">
+
+    </div>
+</div>
+
+<div class="Logdding">
+    <div class="modal" id="loaddingModal" style="display: none">
+        <div class="center">
+            <img alt="" src="~/img/ring.gif" />
         </div>
     </div>
 </div>
 
+
 <script>
 
-    function AddNews(event) {
+    function AddNews(event)
+    {
         event.preventDefault();
         var NewsTitle = txtNewsTitle.value;
         var newsDesc = txtNewsDesc.value;
@@ -282,9 +291,34 @@
 
             }
         })
-    }
+    };
 
 
+</script>
+<script>
+    function LoadNewsList(){
+        $.ajax({
+            url: "@Url.Action("NewsList","Home")",
+            cache: false,
+            type: "POST",
+
+            beforeSend: function () {
+                $("#loaddingModal").show();
+            },
+            complete: function () {
+                $("#loaddingModal").hide();
+            },
+            success: function (data) {
+                AddNewsDiv.innerHTML = "";
+                NewsListDiv.innerHTML=data;
+            },
+            error: function (xhr, status) {
+                alert("Exception While Populating news list!");
+
+            }
+        })
+    };
+    
 
 
 </script>

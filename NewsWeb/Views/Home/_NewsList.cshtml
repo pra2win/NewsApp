@@ -1,0 +1,43 @@
+﻿@model IEnumerable<NewsWeb.Models.NewsDetail>
+
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Posted</th>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.CategoryId
+                </td>
+                <td>
+
+                    @String.Format("{0:MM/dd/yyyy}", item.CreatedTs)
+                </td>
+                <td>
+                    <img id="newImg_@item.NewsId" scr="@item.NewsPhotoUrl" class="thumbnail" />
+                </td>
+                <td style="display:inline-block;
+    width:400px;
+    white-space: nowrap;
+    overflow:hidden !important;
+    text-overflow: ellipsis;">
+                    @item.NewsTitle
+                </td>
+                <td>
+                    <a href="#" class="btn btn-default">Edit</a>
+                    <a href="#"class="btn btn-primary">Approve</a>
+                    <a href="#" class="btn btn-danger">Reject</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+  
+</table>

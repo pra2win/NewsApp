@@ -71,6 +71,34 @@ namespace NewsWeb.Comman
                 throw ex;
             }
         }
+
+        public static List<NewsDetail> NewsList()
+        {
+            var result = new List<NewsDetail>();
+            try
+            {
+                var client = new HttpClient();
+                client.BaseAddress = baseUri;
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+              // var content = new StringContent(JsonConvert.SerializeObject(request));
+                //content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                var response = client.PostAsync("api/News/GeneralNewsList", null).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    var value = response.Content.ReadAsStringAsync();
+
+                    result = JsonConvert.DeserializeObject<List<NewsDetail>>(value.Result);
+                }
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 
 }
