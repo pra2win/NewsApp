@@ -14,7 +14,7 @@ namespace NewsWeb.Models
         public string NewsDescription { get; set; }
         public Nullable<System.DateTime> CreatedTs { get; set; }
         public System.Guid NewsById { get; set; }
-
+        public bool NotifyToAll { get; set; }
     }
     public class NewsDetail
     {

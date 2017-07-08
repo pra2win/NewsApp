@@ -176,7 +176,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="newsImg">News Image</label>
                     <div class="col-md-4">
-                        <input id=" newsimg" name="newsImg" class="input-file" type="file" accept="image/x-png,image/gif,image/jpeg">
+                        <input id=" newsimg" name="newsImg" class="input-file form-control" type="file" accept="image/x-png,image/gif,image/jpeg">
                     </div>
 
                 </div>
@@ -194,7 +194,12 @@
                     </div>
 
                 </div>
-
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="saveNews">Send Notification</label>
+                    <div class="col-md-4">
+                        <input type="checkbox" id="IsNotify" name="IsNotify" class="">
+                    </div>
+                </div>
                 <!-- Button -->
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="saveNews"></label>
@@ -202,6 +207,8 @@
                         <input type="submit" id="saveNews" name="saveNews" class="btn btn-info">
                     </div>
                 </div>
+
+
 
             </fieldset>
         </form>
@@ -223,11 +230,11 @@
 
 <script>
 
-    function AddNews(event)
-    {
+    function AddNews(event) {
         event.preventDefault();
         var NewsTitle = txtNewsTitle.value;
         var newsDesc = txtNewsDesc.value;
+        var IsNotify = document.getElementById("IsNotify").checked;
         var file = "";
         var FileUrl = "";
         var isFileFromUrl = false;
@@ -264,6 +271,7 @@
         fileData.append("NewsTitle", NewsTitle);
         fileData.append("NewsDescription", newsDesc);
         fileData.append("FileUrl", FileUrl);
+        fileData.append("IsNotify", IsNotify);
 
         $.ajax({
             url: "@Url.Action("AddNews","Home")",
@@ -291,7 +299,9 @@
 
             }
         })
-    };
+    }
+
+
 
 
 </script>

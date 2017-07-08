@@ -18,7 +18,6 @@ namespace NewsWeb.Controllers
         {
             return View();
         }
-
         [Authorize]
         [CustomAuthorizer]
         public NewsDetail AddNews()
@@ -28,6 +27,8 @@ namespace NewsWeb.Controllers
             string NewsTitle = Request.Form.GetValues("NewsTitle")[0];
             string NewsDescription = Request.Form.GetValues("NewsDescription")[0];
             string FileUrl = Request.Form.GetValues("FileUrl")[0];
+            bool IsNotify = Convert.ToBoolean(Request.Form.GetValues("IsNotify")[0]);
+
 
             if (Request.Files.Count > 0)
             {
@@ -57,6 +58,7 @@ namespace NewsWeb.Controllers
             request.CategoryId = Convert.ToInt32(CategoryId);
             request.NewsDescription = NewsDescription;
             request.NewsPhoto = base64;
+            request.NotifyToAll = IsNotify;
             request.NewsTitle = NewsTitle;
             //request.NewsPhoto = request.NewsPhoto.Replace("data:image/jpeg;base64,", string.Empty);
             request.CreatedTs = DateTime.Now;
