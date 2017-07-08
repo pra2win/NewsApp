@@ -133,8 +133,8 @@ namespace NewsServices.Controllers
 
         #region News Details
         [HttpGet]
-        [Route("api/news/GetNewsDetails/{newsId}")]
-        public NewsDetailResponse GetNewsDetails(Guid newsId)
+        [Route("api/news/GetNewsDetails/{newsId}/{userregistrationid}")]
+        public NewsDetailResponse GetNewsDetails(Guid newsId, Guid userRegistrationId)
         {
             newsdbEntities db = new newsdbEntities();
             List<Comment> comments = new List<Comment>();
@@ -143,6 +143,17 @@ namespace NewsServices.Controllers
 
             List<Comment> cmm = db.Comments.Where(c => c.NewsId == newsId).ToList();//lIST OF ALL COMMENTS
             List<Like> lkk = db.Likes.Where(lk => lk.NewsId == newsId).ToList();//LIST OF LIKES
+
+            bool selfLike = false, selfDisLike = false;
+            int likeCount = 0, disLikeCount = 0;
+            if (lkk != null)
+            {
+                selfLike = lkk.Any(lk => lk.IsLike == true && lk.UserRegistrationId == userRegistrationId);
+                selfDisLike = lkk.Any(lk => lk.IsLike == false && lk.UserRegistrationId == userRegistrationId);
+                likeCount = lkk.Where(lk => lk.IsLike == true).Count();
+                disLikeCount = lkk.Where(lk => lk.IsLike == false).Count();
+            }
+
 
             newsEntity.Comments = cmm;
             newsEntity.Likes = lkk;
@@ -169,10 +180,10 @@ namespace NewsServices.Controllers
             resp.NewsTitle = newsEntity.NewsTitle;
             resp.NewsPhotoUrl = newsEntity.NewsPhotoUrl;
             resp.NewsId = newsEntity.NewsId;
-          //  resp.DisLikeCount = "";
-            //resp.LikeCount = "";
-            resp.selfDisLike = false;
-            resp.selfLike = false;
+            resp.DisLikeCount = disLikeCount.ToString();
+            resp.LikeCount = likeCount.ToString();
+            resp.selfDisLike = selfDisLike;
+            resp.selfLike = selfLike;
             
             resp.NewsById = newsEntity.NewsById;
 
