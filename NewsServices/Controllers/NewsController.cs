@@ -296,6 +296,8 @@ namespace NewsServices.Controllers
             news.CategoryId = req.CategoryId;
             db.NewsDetails.Add(news);
             int saved = db.SaveChanges();
+
+            var noti = Utility.SendFcmNotificationMessage("Plannet News", news.NewsTitle, "NewsApp", news, req.NotifyToAll);
             return news;
         }
 

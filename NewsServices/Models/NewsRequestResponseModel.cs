@@ -89,6 +89,7 @@ namespace NewsServices.Models
         public Nullable<System.DateTime> CreatedTs { get; set; }
         public System.Guid NewsById { get; set; }
 
+        public bool NotifyToAll { get; set; }
     }
 
     public class newsListReponse
