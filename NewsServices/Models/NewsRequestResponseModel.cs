@@ -105,7 +105,20 @@ namespace NewsServices.Models
         public string DisLikeCount { get; set; }
         public bool selfLike { get; set; }
         public bool selfDisLike { get; set; }
-        public string AppVersion { get; set; }
+    }
+
+    public class generalNewsListReponse
+    {
+        public System.Guid NewsId { get; set; }
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
+        public string NewsPhotoUrl { get; set; }
+        public string NewsTitle { get; set; }
+        public string NewsDescription { get; set; }
+        public Nullable<System.DateTime> CreatedTs { get; set; }
+        public System.Guid NewsById { get; set; }
+        public string NewsByName { get; set; }
+        public bool IsActive { get; set; }
     }
 
     public class NewsListModel
@@ -139,12 +152,12 @@ namespace NewsServices.Models
         public string CommentByThumbnailUrl { get; set; }
         public DateTime TimeStamp { get; set; }
     }
-    public enum categories
+    public enum NewsCategories
     {
         Global = 1,
         Politics = 2,
         Entertainment = 3,
-        sport = 4,
+        Sport = 4,
         LifeStyle = 5,
         Gadgets = 6,
 

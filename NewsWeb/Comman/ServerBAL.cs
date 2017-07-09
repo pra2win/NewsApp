@@ -72,9 +72,9 @@ namespace NewsWeb.Comman
             }
         }
 
-        public static List<NewsDetail> NewsList()
+        public static List<generalNewsListReponse> NewsList()
         {
-            var result = new List<NewsDetail>();
+            var result = new List<generalNewsListReponse>();
             try
             {
                 var client = new HttpClient();
@@ -84,12 +84,12 @@ namespace NewsWeb.Comman
 
               // var content = new StringContent(JsonConvert.SerializeObject(request));
                 //content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                var response = client.PostAsync("api/News/GeneralNewsList", null).Result;
+                var response = client.PostAsync("api/manager/GeneralNewsList", null).Result;
                 if (response.IsSuccessStatusCode)
                 {
                     var value = response.Content.ReadAsStringAsync();
 
-                    result = JsonConvert.DeserializeObject<List<NewsDetail>>(value.Result);
+                    result = JsonConvert.DeserializeObject<List<generalNewsListReponse>>(value.Result);
                 }
                 return result;
 

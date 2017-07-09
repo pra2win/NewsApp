@@ -13,7 +13,7 @@ namespace NewsServices.Controllers
 {
     public class NewsController : ApiController
     {
-        
+
         #region News List
         [HttpPost]
         public NewsListModel NewsList(Filter filt)
@@ -98,37 +98,6 @@ namespace NewsServices.Controllers
             return newslist;
         }
 
-        public List<newsListReponse> GeneralNewsList()
-        {
-            List<newsListReponse> response = new List<newsListReponse>();
-            newsdbEntities db = new newsdbEntities();
-            {
-                var resp = db.NewsDetails.OrderByDescending(t => t.CreatedTs).ToList();
-
-                foreach (var n in resp)
-                {
-                    bool selfLike = false, selfDisLike = false;
-                    int likeCount = 0, disLikeCount = 0;
-                    response.Add(new newsListReponse()
-                    {
-                        CategoryId = n.CategoryId,
-                        CreatedTs = n.CreatedTs,
-                        NewsById = n.NewsById,
-                        NewsDescription = n.NewsDescription,
-                        NewsId = n.NewsId,
-                        NewsPhotoUrl = n.NewsPhotoUrl,
-                        NewsTitle = n.NewsTitle,
-                        selfLike = selfLike,
-                        selfDisLike = selfDisLike,
-                        LikeCount = likeCount.ToString(),
-                        DisLikeCount = disLikeCount.ToString(),
-                    });
-                }
-            }
-
-            return response;
-        }
-
         #endregion
 
         #region News Details
@@ -159,19 +128,19 @@ namespace NewsServices.Controllers
             newsEntity.Likes = lkk;
             NewsDetailResponse resp = new NewsDetailResponse();
             List<CommentsModel> comm = new List<CommentsModel>();
-            foreach(var c in cmm)
+            foreach (var c in cmm)
             {
                 var CommUser = db.UserDetails.FirstOrDefault(u => u.UserRegistrationId == c.UserRegistraionId);
                 comm.Add(new CommentsModel()
                 {
                     CommentByThumbnailUrl = CommUser.ThumbnailUrl,
                     CommentByUserName = CommUser.FirstName + " " + CommUser.LastName,
-                    CommentText=c.CommentText,
-                    TimeStamp=c.TimeStamp
+                    CommentText = c.CommentText,
+                    TimeStamp = c.TimeStamp
                 });
             }
 
-          
+
             resp.commentsList = comm;
             resp.CategoryId = newsEntity.CategoryId;
             resp.CreatedTs = newsEntity.CreatedTs;
@@ -184,7 +153,7 @@ namespace NewsServices.Controllers
             resp.LikeCount = likeCount.ToString();
             resp.selfDisLike = selfDisLike;
             resp.selfLike = selfLike;
-            
+
             resp.NewsById = newsEntity.NewsById;
 
             return resp;
@@ -200,12 +169,12 @@ namespace NewsServices.Controllers
             newsdbEntities db = new newsdbEntities();
             List<Comment> comments = new List<Comment>();
 
-           // NewsDetail newsEntity = db.NewsDetails.FirstOrDefault(n => n.NewsId == newsId);//GET NEWS ENTITY FROM DATABASE
+            // NewsDetail newsEntity = db.NewsDetails.FirstOrDefault(n => n.NewsId == newsId);//GET NEWS ENTITY FROM DATABASE
 
             List<Comment> cmm = db.Comments.Where(c => c.NewsId == newsId).ToList();//lIST OF ALL COMMENTS
-           // List<Like> lkk = db.Likes.Where(lk => lk.NewsId == newsId).ToList();//LIST OF LIKES
+                                                                                    // List<Like> lkk = db.Likes.Where(lk => lk.NewsId == newsId).ToList();//LIST OF LIKES
 
-          //  newsEntity.Comments = cmm;
+            //  newsEntity.Comments = cmm;
             //newsEntity.Likes = lkk;
 
             return cmm;

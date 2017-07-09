@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NewsWeb.Models.NewsDetail>
+﻿@model IEnumerable<NewsWeb.Models.generalNewsListReponse>
 
 <table class="table table-condensed">
     <thead>
@@ -15,7 +15,7 @@
         {
             <tr>
                 <td>
-                    @item.CategoryId
+                    @item.CategoryName
                 </td>
                 <td>
 
@@ -24,17 +24,19 @@
                 <td>
                     <img id="newImg_@item.NewsId" scr="@item.NewsPhotoUrl" class="thumbnail" />
                 </td>
-                <td style="display:inline-block;
-    width:400px;
-    white-space: nowrap;
-    overflow:hidden !important;
-    text-overflow: ellipsis;">
+                <td style="display:inline-block; width:400px;white-space: nowrap; overflow:hidden !important;text-overflow: ellipsis;">
                     @item.NewsTitle
                 </td>
                 <td>
+                    @if (!item.IsActive)
+                    {
                     <a href="#" class="btn btn-default">Edit</a>
                     <a href="#"class="btn btn-primary">Approve</a>
                     <a href="#" class="btn btn-danger">Reject</a>
+                    }else
+                    {
+                        <span style="color:green">Approved</span>
+                    }
                 </td>
             </tr>
         }
