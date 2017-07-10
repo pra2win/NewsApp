@@ -73,7 +73,30 @@ namespace NewsWeb.Controllers
         public ActionResult NewsList()
         {
             var result = ServerBAL.NewsList();
-            return PartialView("_NewsList",result);
+            return PartialView("_NewsList", result);
+        }
+
+        [Authorize]
+        [CustomAuthorizer]
+        public bool ApproveNews(string newsId)
+        {
+            Guid _newsId = new Guid(newsId);
+            var result = ServerBAL.ApproveNews(_newsId);
+            return result;
+        }
+
+        [Authorize]
+        [CustomAuthorizer]
+        public ActionResult CreateUser()
+        {
+            return View("_CreateUser");
+        }
+        [Authorize]
+        [CustomAuthorizer]
+        [HttpPost]
+        public void CreateNewUser(CreateUser request)
+        {
+            var result = ServerBAL.CreateNewUser(request);
         }
     }
 }

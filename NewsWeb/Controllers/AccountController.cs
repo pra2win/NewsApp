@@ -41,7 +41,7 @@ namespace NewsWeb.Controllers
                     Session.Add("FName", entities.FirstName);
                     Session.Add("FullName", string.Join(" ", entities.FirstName, entities.LastName));
                     Session.Add("UserId", entities.UserRegistrationId);
-                    
+                    Session.Add("UserType", entities.userType);
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                     {

@@ -99,6 +99,62 @@ namespace NewsWeb.Comman
                 throw ex;
             }
         }
+
+        public static bool ApproveNews(Guid newsId)
+        {
+            bool result = false;
+            try
+            {
+                var client = new HttpClient();
+                client.BaseAddress = baseUri;
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // var content = new StringContent(JsonConvert.SerializeObject(request));
+                //content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                var response = client.PostAsync("api/manager/ConfirmNews/"+newsId, null).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    var value = response.Content.ReadAsStringAsync();
+
+                    result = JsonConvert.DeserializeObject<bool>(value.Result);
+                }
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static CreateUser CreateNewUser(CreateUser request)
+        {
+            CreateUser result = new CreateUser();
+            try
+            {
+                var client = new HttpClient();
+                client.BaseAddress = baseUri;
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var content = new StringContent(JsonConvert.SerializeObject(request));
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                var response = client.PostAsync("api/Account/RegisterUser/", content).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    var value = response.Content.ReadAsStringAsync();
+
+                    result = JsonConvert.DeserializeObject<CreateUser>(value.Result);
+                }
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 
 }

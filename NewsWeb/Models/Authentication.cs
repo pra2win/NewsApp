@@ -30,6 +30,14 @@ namespace NewsWeb.Models
         public string Thumbnail { get; set; }
         public string Initials { get; set; }
         public int userType { get; set; }
+        
+    }
+
+    public enum ConstantUsersType
+    {
+        user=1,
+        admin=2,
+        superAdmin=3,
 
     }
 }

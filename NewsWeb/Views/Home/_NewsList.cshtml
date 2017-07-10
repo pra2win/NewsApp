@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<NewsWeb.Models.generalNewsListReponse>
 
+@{ 
+    int UserType = Int32.Parse(Session["UserType"].ToString());
+}
 
 <table class="table table-condensed NewsList">
     <thead>
@@ -29,12 +32,15 @@
                     @item.NewsTitle
                 </td>
                 <td>
-                    @if (!item.IsActive)
+                    @if (UserType==3 && !item.IsActive)
                     {
-                    <a href="#" class="btn btn-default">Edit</a>
-                    <a href="#"class="btn btn-primary">Approve</a>
-                    <a href="#" class="btn btn-danger">Reject</a>
-                    }else
+                        <div id="NewsButtons_@item.NewsId">
+                            <a href="#" class="btn btn-default">Edit</a>
+                            <a href="#" onclick="ApproveNews('@item.NewsId');" class="btn btn-primary">Approve</a>
+                            
+                        </div>
+                    }
+                    else
                     {
                         <span style="color:green">Approved</span>
                     }
