@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<NewsWeb.Models.generalNewsListReponse>
 
-<table class="table table-condensed">
+
+<table class="table table-condensed NewsList">
     <thead>
         <tr>
             <th>Category</th>
@@ -22,7 +23,7 @@
                     @String.Format("{0:MM/dd/yyyy}", item.CreatedTs)
                 </td>
                 <td>
-                    <img id="newImg_@item.NewsId" scr="@item.NewsPhotoUrl" class="thumbnail" />
+                    <img style="width:116px" id="newImg_@item.NewsId" src="@item.NewsPhotoUrl" class="thumbnail" />
                 </td>
                 <td style="display:inline-block; width:400px;white-space: nowrap; overflow:hidden !important;text-overflow: ellipsis;">
                     @item.NewsTitle
