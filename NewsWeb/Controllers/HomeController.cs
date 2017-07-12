@@ -94,8 +94,9 @@ namespace NewsWeb.Controllers
         [Authorize]
         [CustomAuthorizer]
         [HttpPost]
-        public CreateUser CreateNewUser(string UserId, string  Password, string FirstName, string LastName, string Email, string Mobile, string Gender,int  UserType)
+        public bool CreateNewUser(string UserId, string Password, string FirstName, string LastName, string Email, string Mobile, string Gender, int UserType)
         {
+            bool success = false;
             CreateUser req = new Models.CreateUser();
             req.EmailId = Email;
             req.FirstName = FirstName;
@@ -106,7 +107,11 @@ namespace NewsWeb.Controllers
             req.userType = UserType;
             req.Gender = Gender;
             var result = ServerBAL.CreateNewUser(req);
-            return result;
+            if (result != null)
+            {
+                return result.UserId != null;
+            }
+            return success;
         }
     }
 }

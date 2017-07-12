@@ -101,8 +101,8 @@ function ApproveNews(NewsId) {
         url: "/Home/ApproveNews/",
         cache: false,
         type: "POST",
-        data:{
-            NewsId:NewsId
+        data: {
+            NewsId: NewsId
         },
         beforeSend: function () {
             $("#loaddingModal").show();
@@ -150,6 +150,8 @@ function LoadCreateUserView() {
     })
 }
 function CreateNewUser(e) {
+    debugger;
+    alert(2);
     event.preventDefault();
     var UserId = txtUserId.value;
     var Password = txtPassword.value;
@@ -160,8 +162,13 @@ function CreateNewUser(e) {
     var Mobile = txtMobile.value;
     var Gender = $("#OptGender").val();
     var UserType = $("#OptUserType").val();
-    
-    debugger;
+
+    if (UserId == '' || Password == '', FirstName == '', LastName == '', Email == '') {
+        alert("Please enter correct inforamtion");
+    }
+    if (Password != ConfirmPassword) {
+        alert("Passwords Don't Match!")
+    }
     switch (Gender) {
         case '1': Gender = 'Male'; break;
         case '2': Gender = 'Female'; break;
@@ -172,6 +179,8 @@ function CreateNewUser(e) {
         url: "/Home/CreateNewUser",
         cache: false,
         type: "POST",
+        //dataType: 'json',
+        //contentType: "application/json;charset=utf-8",
         data: {
             UserId: UserId,
             Password: Password,
@@ -180,7 +189,7 @@ function CreateNewUser(e) {
             Email: Email,
             Mobile: Mobile,
             Gender: Gender,
-            UserType:UserType
+            UserType: UserType
         },
         beforeSend: function () {
             $("#loaddingModal").show();
@@ -189,12 +198,17 @@ function CreateNewUser(e) {
             $("#loaddingModal").hide();
         },
         success: function (data) {
+            debugger
             $("#menu_NewsList").removeClass("active");
             $("#menu_AddNews").removeClass("active");
             $("#menu_AddAdmin").toggleClass("active");
-
-            AddNewsDiv.innerHTML = "";
-            PartialViewDiv.innerHTML = data;
+            if (data = "True") {
+                AddNewsDiv.innerHTML = "";
+                PartialViewDiv.innerHTML = '<div class="alert alert-success">' +
+      '<strong>User Created!</strong> Name:' + FirstName + ' ' + LastName + '<br>' +
+      'UserId:' + UserId +
+      '</div>';
+            }
         },
         error: function (xhr, status) {
             alert("Exception While Populating news list!");
@@ -202,3 +216,4 @@ function CreateNewUser(e) {
         }
     })
 }
+
