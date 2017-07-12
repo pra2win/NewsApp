@@ -94,9 +94,19 @@ namespace NewsWeb.Controllers
         [Authorize]
         [CustomAuthorizer]
         [HttpPost]
-        public void CreateNewUser(CreateUser request)
+        public CreateUser CreateNewUser(string UserId, string  Password, string FirstName, string LastName, string Email, string Mobile, string Gender,int  UserType)
         {
-            var result = ServerBAL.CreateNewUser(request);
+            CreateUser req = new Models.CreateUser();
+            req.EmailId = Email;
+            req.FirstName = FirstName;
+            req.LastName = LastName;
+            req.UserId = UserId;
+            req.Password = Password;
+            req.MobileNo = Mobile;
+            req.userType = UserType;
+            req.Gender = Gender;
+            var result = ServerBAL.CreateNewUser(req);
+            return result;
         }
     }
 }

@@ -31,16 +31,14 @@
                 {
                     <li id="menu_AddNews"class="active"><a href="/Home/Index">Add News</a></li>
                     <li id="menu_NewsList"><a href="#" onclick="LoadNewsList();">News List</a></li>
+                    if (UserType == 3)//3 for superAdmin
+                    {
+                    <li id="menu_AddAdmin"><a href="#" onclick="LoadCreateUserView();">Add Admin</a></li>
+                    }
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Setting <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="#">Edit Profile</a></li>
-                            <li class="divider"></li>
-                            @if (UserType == 3)//3 for superAdmin
-                            {
-                            <li><a href="/Home/CreateUser">Add Admin</a></li>
-                            }
-
                             @*     <li class="divider"></li>*@
                         </ul>
                     </li>
@@ -217,7 +215,7 @@
         </form>
     </div>
 
-    <div id="NewsListDiv">
+    <div id="PartialViewDiv">
 
     </div>
 </div>
