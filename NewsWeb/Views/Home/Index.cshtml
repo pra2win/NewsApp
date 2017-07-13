@@ -1,231 +1,238 @@
 ﻿@model NewsWeb.Models.LoginReq
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @{
+        ViewBag.Title = "Home";
+        Layout = null;
+        int UserType = Int32.Parse(Session["UserType"].ToString());
+    }
 
-@{
-    ViewBag.Title = "Home";
-    Layout = null;
-    int UserType = Int32.Parse(Session["UserType"].ToString());
-}
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Styles.Render("~/Content/css?v=152017")
 
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/bootstrap")
-@Styles.Render("~/Content/css?v=152017")
-
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-
-<nav class="navbar navbar-default navbar-inverse" role="navigation">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="@Url.Action("Index","Home")">News Planet</a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                @if (Request.IsAuthenticated)
-                {
-                    <li id="menu_AddNews"class="active"><a href="/Home/Index">Add News</a></li>
-                    <li id="menu_NewsList"><a href="#" onclick="LoadNewsList();">News List</a></li>
-                    if (UserType == 3)//3 for superAdmin
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="@Url.Action("Index","Home")">News Planet</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    @if (Request.IsAuthenticated)
                     {
-                    <li id="menu_AddAdmin"><a href="#" onclick="LoadCreateUserView();">Add Admin</a></li>
+                        <li id="menu_AddNews" class="active"><a href="/Home/Index">Add News</a></li>
+                        <li id="menu_NewsList"><a href="#" onclick="LoadNewsList();">News List</a></li>
+                        if (UserType == 3)//3 for superAdmin
+                        {
+                            <li id="menu_AddAdmin"><a href="#" onclick="LoadCreateUserView();">Add Admin</a></li>
+                        }
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Edit Profile</a></li>
+                                @*     <li class="divider"></li>*@
+                            </ul>
+                        </li>
                     }
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Edit Profile</a></li>
-                            @*     <li class="divider"></li>*@
-                        </ul>
-                    </li>
-                }
-            </ul>
+                </ul>
 
-            <ul class="nav navbar-nav navbar-right">
-                @if (!Request.IsAuthenticated)
-                {
-                    <li class="dropdown">
+                <ul class="nav navbar-nav navbar-right">
+                    @if (!Request.IsAuthenticated)
+                    {
+                        <li class="dropdown">
 
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
-                        <ul id="login-dp" class="dropdown-menu">
-                            <li>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        Login via
-                                        <div class="social-buttons">
-                                            <a href="#" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook</a>
-                                            <a href="#" class="btn btn-tw"><i class="fa fa-twitter"></i> Twitter</a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+                            <ul id="login-dp" class="dropdown-menu">
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            Login via
+                                            <div class="social-buttons">
+                                                <a href="#" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook</a>
+                                                <a href="#" class="btn btn-tw"><i class="fa fa-twitter"></i> Twitter</a>
+                                            </div>
+                                            or
+                                            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form" }))
+                                            {
+                                                @Html.ValidationSummary(true)
+                                                @Html.AntiForgeryToken()
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="txtUserId">Email address</label>
+                                                    @Html.TextBoxFor(m => m.UserId, new { @class = "form-control", placeholder = "User Name" })
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="password">Password</label>
+                                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+
+                                                    <div class="help-block text-right"><a href="">Forget the password ?</a></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        @Html.CheckBoxFor(m => m.RememberMe)
+                                                        keep me logged-in
+                                                    </label>
+                                                </div>
+                                            }
                                         </div>
-                                        or
-                                        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form" }))
-                                        {
-                                            @Html.ValidationSummary(true)
-                                            @Html.AntiForgeryToken()
-                                            <div class="form-group">
-                                                <label class="sr-only" for="txtUserId">Email address</label>
-                                                @Html.TextBoxFor(m => m.UserId, new { @class = "form-control", placeholder = "User Name" })
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="sr-only" for="password">Password</label>
-                                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
-
-                                                <div class="help-block text-right"><a href="">Forget the password ?</a></div>
-                                            </div>
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    @Html.CheckBoxFor(m => m.RememberMe)
-                                                    keep me logged-in
-                                                </label>
-                                            </div>
-                                        }
-                                    </div>
-                                    <div class="bottom text-center">
-                                        New here ? <a href="#"><b>Join Us</b></a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-
-                    </li>
-                }
-                else
-                {
-                    <li class="dropdown">
-
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>@Session["FName"]</b> <span class="caret"></span></a>
-                        <ul id="login-dp" class="dropdown-menu">
-                            <li>
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <div id="DpImage">
-                                            <img src="~/img/profile.png" class="img-circle dp-img" />
-                                            <a href="#" class="username">
-                                                <b>
-                                                    @Session["FullName"]
-                                                </b>
-                                            </a>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <a class="btn btn-info btn-block" href="@Url.Action("LogOff","Account")">Log out</a>
+                                        <div class="bottom text-center">
+                                            New here ? <a href="#"><b>Join Us</b></a>
                                         </div>
                                     </div>
+                                </li>
+                            </ul>
 
-                                </div>
-                            </li>
-                        </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="dropdown">
 
-                    </li>
-                }
-            </ul>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>@Session["FName"]</b> <span class="caret"></span></a>
+                            <ul id="login-dp" class="dropdown-menu">
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-12">
 
-
-        </div><!-- /.navbar-collapse -->
-
-    </div><!-- /.container-fluid -->
-</nav>
-<div id="ajaxPartialView">
-    <div id="AddNewsDiv">
-        <form id="addNewsForm" class="form-horizontal" onsubmit="AddNews(event);">
-            <fieldset>
-
-                <!-- Form Name -->
-                <legend>Add News</legend>
-
-                <!-- Text input-->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="txtNewsTitle">Title</label>
-                    <div class="col-md-4">
-                        <input id="txtNewsTitle" name="txtNewsTitle" type="text" placeholder="Please Enter News Title" class="form-control input-md" required="">
-
-                    </div>
-                </div>
-
-                <!-- Textarea -->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="txtNewsDesc">Description</label>
-                    <div class="col-md-4">
-                        <textarea class="form-control" id="txtNewsDesc" name="txtNewsDesc" placeholder="Please Enter News Description"></textarea>
-                    </div>
-                </div>
-
-                <!-- Select Basic -->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="Optcategories">Categories</label>
-                    <div class="col-md-4">
-                        <select id="Optcategories" name="Optcategories" class="form-control">
-                            <option value="1">Global</option>
-                            <option value="2">Politics</option>
-                            <option value="3">Entertainment</option>
-                            <option value="4">sport</option>
-                            <option value="5">Life Style</option>
-                            <option value="6">Gadgets</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- File Button -->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="newsImg">News Image</label>
-                    <div class="col-md-4">
-                        <input id=" newsimg" name="newsImg" class="input-file form-control" type="file" accept="image/x-png,image/gif,image/jpeg">
-                    </div>
-
-                </div>
-                <div class="form-group">
-                    <div class="col-md-8 text-center">
-                        <p>OR</p>
-                    </div>
-                </div>
+                                            <div id="DpImage">
+                                                <img src="~/img/profile.png" class="img-circle dp-img" />
+                                                <a href="#" class="username">
+                                                    <b>
+                                                        @Session["FullName"]
+                                                    </b>
+                                                </a>
+                                            </div>
 
 
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="newsImg">News Image</label>
-                    <div class="col-md-4">
-                        <input id="newsImgUrl" name="newsImgUrl" placeholder="Please Enter Image Url!" class="form-control" type="text">
+                                            <div class="form-group">
+                                                <a class="btn btn-info btn-block" href="@Url.Action("LogOff","Account")">Log out</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </li>
+                    }
+                </ul>
+
+
+            </div><!-- /.navbar-collapse -->
+
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div id="ajaxPartialView">
+        <div id="AddNewsDiv">
+            <form id="addNewsForm" class="form-horizontal" onsubmit="AddNews(event);">
+                <fieldset>
+
+                    <!-- Form Name -->
+                    <legend>Add News</legend>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="txtNewsTitle">Title</label>
+                        <div class="col-md-4">
+                            <input id="txtNewsTitle" name="txtNewsTitle" type="text" placeholder="Please Enter News Title" class="form-control input-md" required="">
+
+                        </div>
                     </div>
 
-                </div>
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="saveNews">Send Notification</label>
-                    <div class="col-md-4">
-                        <input type="checkbox" id="IsNotify" name="IsNotify" class="">
+                    <!-- Textarea -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="txtNewsDesc">Description</label>
+                        <div class="col-md-4">
+                            <textarea class="form-control" id="txtNewsDesc" name="txtNewsDesc" placeholder="Please Enter News Description"></textarea>
+                        </div>
                     </div>
-                </div>
-                <!-- Button -->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="saveNews"></label>
-                    <div class="col-md-4">
-                        <input type="submit" id="saveNews" name="saveNews" class="btn btn-info">
+
+                    <!-- Select Basic -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="Optcategories">Categories</label>
+                        <div class="col-md-4">
+                            <select id="Optcategories" name="Optcategories" class="form-control">
+                                <option value="1">Global</option>
+                                <option value="2">Politics</option>
+                                <option value="3">Entertainment</option>
+                                <option value="4">sport</option>
+                                <option value="5">Life Style</option>
+                                <option value="6">Gadgets</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
+
+                    <!-- File Button -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="newsImg">News Image</label>
+                        <div class="col-md-4">
+                            <input id=" newsimg" name="newsImg" class="input-file form-control" type="file" accept="image/x-png,image/gif,image/jpeg">
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-8 text-center">
+                            <p>OR</p>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="newsImg">News Image</label>
+                        <div class="col-md-4">
+                            <input id="newsImgUrl" name="newsImgUrl" placeholder="Please Enter Image Url!" class="form-control" type="text">
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="saveNews">Send Notification</label>
+                        <div class="col-md-4">
+                            <input type="checkbox" id="IsNotify" name="IsNotify" class="">
+                        </div>
+                    </div>
+                    <!-- Button -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="saveNews"></label>
+                        <div class="col-md-4">
+                            <input type="submit" id="saveNews" name="saveNews" class="btn btn-info">
+                        </div>
+                    </div>
 
 
 
-            </fieldset>
-        </form>
-    </div>
+                </fieldset>
+            </form>
+        </div>
 
-    <div id="PartialViewDiv">
+        <div id="PartialViewDiv">
 
-    </div>
-</div>
-
-<div class="Logdding">
-    <div class="modal" id="loaddingModal" style="display: none">
-        <div class="center">
-            <img alt="" src="~/img/ring.gif" />
         </div>
     </div>
-</div>
 
-<script src="~/Scripts/News/TalkoutNews.js"></script>
+    <div class="Logdding">
+        <div class="modal" id="loaddingModal" style="display: none">
+            <div class="center">
+                <img alt="" src="~/img/ring.gif" />
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/News/TalkoutNews.js"></script>
+</body>
+</html>

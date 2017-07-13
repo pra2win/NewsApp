@@ -96,7 +96,7 @@ function LoadNewsList() {
 }
 
 function ApproveNews(NewsId) {
-    debugger;
+    
     $.ajax({
         url: "/Home/ApproveNews/",
         cache: false,
@@ -111,7 +111,7 @@ function ApproveNews(NewsId) {
             $("#loaddingModal").hide();
         },
         success: function (data) {
-            debugger;
+            
             if (data == 'True') {
                 $("#NewsButtons_" + NewsId).html('<span style="color:green">Approved</span>');
             }
@@ -150,8 +150,7 @@ function LoadCreateUserView() {
     })
 }
 function CreateNewUser(e) {
-    debugger;
-    alert(2);
+   
     event.preventDefault();
     var UserId = txtUserId.value;
     var Password = txtPassword.value;
@@ -164,10 +163,10 @@ function CreateNewUser(e) {
     var UserType = $("#OptUserType").val();
 
     if (UserId == '' || Password == '', FirstName == '', LastName == '', Email == '') {
-        alert("Please enter correct inforamtion");
+        alert("Please enter correct inforamtion"); return;
     }
     if (Password != ConfirmPassword) {
-        alert("Passwords Don't Match!")
+        alert("Passwords Don't Match!"); return;
     }
     switch (Gender) {
         case '1': Gender = 'Male'; break;
