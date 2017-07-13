@@ -1,4 +1,5 @@
-﻿using NewsServices.Models;
+﻿using NewsServices.Comman;
+using NewsServices.Models;
 using NewsServices.Models.EntityFrameworkModel;
 using System;
 using System.Collections.Generic;
@@ -58,6 +59,9 @@ namespace NewsServices.Controllers
                 news.isActive = true;
                 db.Entry(news).State = EntityState.Modified;
                 int hasUpdate=db.SaveChanges();
+
+                bool NotifyToAll = true;
+                var noti = Utility.SendFcmNotificationMessage("Plannet News", news.NewsTitle, "NewsApp", news, NotifyToAll);
                 return hasUpdate > 0;
             };
         }

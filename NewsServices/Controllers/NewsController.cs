@@ -266,7 +266,7 @@ namespace NewsServices.Controllers
             db.NewsDetails.Add(news);
             int saved = db.SaveChanges();
 
-            var noti = Utility.SendFcmNotificationMessage("Plannet News", news.NewsTitle, "NewsApp", news, req.NotifyToAll);
+            //var noti = Utility.SendFcmNotificationMessage("Plannet News", news.NewsTitle, "NewsApp", news, req.NotifyToAll);
             return news;
         }
 
