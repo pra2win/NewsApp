@@ -85,6 +85,7 @@ function LoadNewsList() {
         success: function (data) {
             $("#menu_NewsList").toggleClass("active");
             $("#menu_AddNews").removeClass("active");
+            $("#menu_AddAdmin").removeClass("active");
             AddNewsDiv.innerHTML = "";
             PartialViewDiv.innerHTML = data;
         },

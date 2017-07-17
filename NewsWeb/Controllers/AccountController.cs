@@ -33,8 +33,8 @@ namespace NewsWeb.Controllers
                 // since the password is in plain text lets just authenticate directly
                 var entities = ServerBAL.AuthenticateUser(model);
 
-                // User found in the database
-                if (entities.Success)
+                // User found in the database and type of admin & su Admin
+                if (entities.Success && (entities.userType == 2 || entities.userType == 3))
                 {
 
                     FormsAuthentication.SetAuthCookie(username, model.RememberMe);
