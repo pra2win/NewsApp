@@ -97,7 +97,7 @@ function LoadNewsList() {
 }
 
 function ApproveNews(NewsId) {
-    
+
     $.ajax({
         url: "/Home/ApproveNews/",
         cache: false,
@@ -112,7 +112,7 @@ function ApproveNews(NewsId) {
             $("#loaddingModal").hide();
         },
         success: function (data) {
-            
+
             if (data == 'True') {
                 $("#NewsButtons_" + NewsId).html('<span style="color:green">Approved</span>');
             }
@@ -151,7 +151,7 @@ function LoadCreateUserView() {
     })
 }
 function CreateNewUser(e) {
-   
+
     event.preventDefault();
     var UserId = txtUserId.value;
     var Password = txtPassword.value;
@@ -217,3 +217,74 @@ function CreateNewUser(e) {
     })
 }
 
+function EditNews(newsId) {
+    $.ajax({
+        url: "/Home/EditNews/",
+        cache: false,
+        data: {
+            newsId: newsId
+        },
+        type: "POST",
+
+        beforeSend: function () {
+            $("#loaddingModal").show();
+        },
+        complete: function () {
+            $("#loaddingModal").hide();
+        },
+        success: function (data) {
+            $("#menu_NewsList").toggleClass("active");
+            $("#menu_AddNews").removeClass("active");
+            $("#menu_AddAdmin").removeClass("active");
+
+            AddNewsDiv.innerHTML = "";
+            $("#NewsDetailModelContainer").html(data);
+            $("#NewsEditModal").modal('show');
+
+        },
+        error: function (xhr, status) {
+            alert("Exception While Populating news!");
+
+        }
+    })
+}
+
+function UpdateNews() {
+    var newsTitle = $("#NewsEditModal #txtNewsTitle").val();
+    var newsDesc = $("#NewsEditModal #txtNewsDesc").val();
+    var newsCat = $("#NewsEditModal #Optcategories").val();
+    var newsId = $("#hdnEditNewsId").val();
+
+    $.ajax({
+        url: "/Home/UpdateNews/",
+        cache: false,
+        data: {
+            newsId: newsId,
+            newsTitle: newsTitle,
+            newsDesc: newsDesc,
+            newsCat: newsCat
+        },
+        type: "POST",
+
+        beforeSend: function () {
+            $("#loaddingModal").show();
+        },
+        complete: function () {
+            $("#loaddingModal").hide();
+        },
+        success: function (data) {
+            $("#menu_NewsList").toggleClass("active");
+            $("#menu_AddNews").removeClass("active");
+            $("#menu_AddAdmin").removeClass("active");
+
+            AddNewsDiv.innerHTML = "";
+            alert("News Updated Successfully.Please Approve it.");
+            $("#NewsEditModal").modal('Hide');
+
+        },
+        error: function (xhr, status) {
+            alert("Exception While Populating news!");
+
+        }
+    })
+}

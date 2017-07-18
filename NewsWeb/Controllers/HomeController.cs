@@ -121,8 +121,19 @@ namespace NewsWeb.Controllers
         [HttpPost]
         public ActionResult EditNews(Guid newsId)
         {
-            generalNewsListReponse newsData = ServerBAL.GetNewsDetails(newsId);
+            generalNewsListReponse newsData = ServerBAL.EditNewsDetails(newsId);
             return PartialView("_EditNews", newsData);
+        }
+
+        [Authorize]
+        [CustomAuthorizer]
+        [HttpPost]
+        public generalNewsListReponse UpdateNews(string newsId, string newsTitle, string newsDesc, int newsCat)
+        {
+            var res = ServerBAL.UpdateNews(newsId, newsTitle, newsDesc, newsCat);
+
+            return res;
+
         }
     }
 }

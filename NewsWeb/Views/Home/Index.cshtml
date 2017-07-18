@@ -12,7 +12,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @Styles.Render("~/Content/css?v=152017")
+    @Styles.Render("~/Content/css?v=162017")
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
@@ -227,7 +227,7 @@
 
     <!-- News Edit Modal -->
     <div id="NewsEditModal" data-backdrop="static" data-keyboard="false"  class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
 
             <!-- Modal content-->
             <div class="modal-content">
@@ -242,7 +242,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" onclick="UpdateNews();">Update</button>
+
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
 

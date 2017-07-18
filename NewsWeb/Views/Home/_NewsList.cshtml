@@ -35,12 +35,20 @@
                     @if (UserType==3 && !item.IsActive)
                     {
                         <div id="NewsButtons_@item.NewsId">
-                            <a href="#" class="btn btn-default">Edit</a>
+                            <a href="#" onclick="EditNews('@item.NewsId');" class="btn btn-default">Edit</a>
                             <a href="#" onclick="ApproveNews('@item.NewsId');" class="btn btn-primary">Approve</a>
                             
                         </div>
                     }
-                    else
+                    else if(UserType==3 && item.IsActive)
+                    {
+                        <span style="color:green">Approved</span>
+                    }
+                    else if (UserType == 2 && !item.IsActive)
+                    {
+                        <span style="color:red">Pendding</span>
+                    }
+                    else if (UserType == 2 && item.IsActive)
                     {
                         <span style="color:green">Approved</span>
                     }

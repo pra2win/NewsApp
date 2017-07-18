@@ -1,14 +1,25 @@
 ﻿@model NewsWeb.Models.generalNewsListReponse
 <div>
     <fieldset>
+        @{
+            string[] op = new string[10] ;
+            op[Model.CategoryId-1] = "selected";
+            
+        }
 
-        <!-- Form Name -->
-        <legend>Add News</legend>
+        <input type="hidden" value="@Model.NewsId" id="hdnEditNewsId"/>
+        <div class="form-group">
+           
+            <div class="col-md-3">
+                <img src="@Model.NewsPhotoUrl" class="thumbnail" style="width:200px;height:auto;" />
+                @*   <input id="newsImg" name="newsImg" class="input-file form-control" type="file" accept="image/x-png,image/gif,image/jpeg">*@
+            </div>
 
+        </div>
         <!-- Text input-->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="txtNewsTitle">Title</label>
-            <div class="col-md-4">
+            <label class="col-md-3 control-label" for="txtNewsTitle">Title</label>
+            <div class="col-md-6">
                 <input id="txtNewsTitle" value="@Model.NewsTitle" name="txtNewsTitle" type="text" placeholder="Please Enter News Title" class="form-control input-md" required="">
 
             </div>
@@ -16,9 +27,9 @@
 
         <!-- Textarea -->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="txtNewsDesc">Description</label>
-            <div class="col-md-4">
-                <textarea class="form-control" id="txtNewsDesc" name="txtNewsDesc" placeholder="Please Enter News Description">
+            <label class="col-md-3 control-label" for="txtNewsDesc">Description</label>
+            <div class="col-md-9">
+                <textarea class="form-control" id="txtNewsDesc" rows="10" name="txtNewsDesc" placeholder="Please Enter News Description">
                     @Model.NewsDescription
                 </textarea>
             </div>
@@ -26,35 +37,22 @@
 
         <!-- Select Basic -->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="Optcategories">Categories</label>
-            <div class="col-md-4">
+            <label class="col-md-3 control-label" for="Optcategories">Categories</label>
+            <div class="col-md-9">
                 <select id="Optcategories" name="Optcategories" class="form-control">
-                    <option value="1" @if (Model.CategoryId == 1) { Html.Raw("selected='selected'"); }>Global</option>
-                    <option value="2" @if (Model.CategoryId == 2) { Html.Raw("selected='selected'"); }>Politics</option>
-                    <option value="3" @if (Model.CategoryId == 3) { Html.Raw("selected='selected'"); }>Entertainment</option>
-                    <option value="4" @if (Model.CategoryId == 4) { Html.Raw("selected='selected'"); }>sport</option>
-                    <option value="5" @if (Model.CategoryId == 5) { Html.Raw("selected='selected'"); }>Life Style</option>
-                    <option value="6" @if (Model.CategoryId == 6) { Html.Raw("selected='selected'"); }>Gadgets</option>
+                    <option value="1" @op[0]>Global</option>
+                    <option value="2" @op[1]>Politics</option>
+                    <option value="3" @op[2]>Entertainment</option>
+                    <option value="4" @op[3]>sport</option>
+                    <option value="5" @op[4]>Life Style</option>
+                    <option value="6" @op[5]>Gadgets</option>
                 </select>
             </div>
         </div>
 
         <!-- File Button -->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="newsImg">News Image</label>
-            <div class="col-md-4">
-                <img src="@Model.NewsPhotoUrl" class="thumbnail" style="width:100px;height:auto;" />
-                @*   <input id="newsImg" name="newsImg" class="input-file form-control" type="file" accept="image/x-png,image/gif,image/jpeg">*@
-            </div>
+     
 
-        </div>
 
-        <!-- Button -->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="saveNews"></label>
-            <div class="col-md-4">
-                <input type="submit" id="saveNews" name="saveNews" class="btn btn-info">
-            </div>
-        </div>
     </fieldset>
 </div>

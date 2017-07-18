@@ -120,6 +120,13 @@ namespace NewsServices.Models
         public string NewsByName { get; set; }
         public bool IsActive { get; set; }
     }
+    public class NewsUpdateModel
+    {
+        public System.Guid NewsId { get; set; }
+        public int CategoryId { get; set; }
+        public string NewsTitle { get; set; }
+        public string NewsDescription { get; set; }
+    }
 
     public class NewsListModel
     {

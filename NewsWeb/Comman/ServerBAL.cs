@@ -128,9 +128,16 @@ namespace NewsWeb.Comman
             }
         }
 
-        public static generalNewsListReponse GetNewsDetails(Guid newsId)
+        internal static generalNewsListReponse UpdateNews(string newsId, string newsTitle, string newsDesc, int newsCat)
         {
-            generalNewsListReponse res = new generalNewsListReponse();
+            NewsUpdateModel req = new NewsUpdateModel()
+            {
+                CategoryId = newsCat,
+                NewsDescription = newsDesc,
+                NewsId = Guid.Parse(newsId),
+                NewsTitle = newsTitle
+            };
+            generalNewsListReponse result=new generalNewsListReponse();
             try
             {
                 var client = new HttpClient();
@@ -138,14 +145,14 @@ namespace NewsWeb.Comman
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var content = new StringContent(JsonConvert.SerializeObject(request));
+                var content = new StringContent(JsonConvert.SerializeObject(req));
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                var response = client.PostAsync("api/Account/RegisterUser/", content).Result;
+                var response = client.PostAsync("api/manager/UpdateNews/", content).Result;
                 if (response.IsSuccessStatusCode)
                 {
                     var value = response.Content.ReadAsStringAsync();
 
-                    result = JsonConvert.DeserializeObject<CreateUser>(value.Result);
+                    result = JsonConvert.DeserializeObject<generalNewsListReponse>(value.Result);
                 }
                 return result;
 
@@ -154,7 +161,34 @@ namespace NewsWeb.Comman
             {
                 throw ex;
             }
-            return res;
+        }
+
+        public static generalNewsListReponse EditNewsDetails(Guid newsId)
+        {
+            generalNewsListReponse result = new generalNewsListReponse();
+            try
+            {
+                var client = new HttpClient();
+                client.BaseAddress = baseUri;
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                //var content = new StringContent(JsonConvert.SerializeObject(request));
+                //content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                var response = client.PostAsync("api/manager/EditNews/"+newsId, null).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    var value = response.Content.ReadAsStringAsync();
+
+                    result = JsonConvert.DeserializeObject<generalNewsListReponse>(value.Result);
+                }
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public static CreateUser CreateNewUser(CreateUser request)

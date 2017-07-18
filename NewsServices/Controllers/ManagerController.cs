@@ -72,7 +72,7 @@ namespace NewsServices.Controllers
             generalNewsListReponse resp = new generalNewsListReponse();
             newsdbEntities db = new newsdbEntities();
             {
-               var newsData= db.NewsDetails.FirstOrDefault(n => n.NewsId == newsId);
+                var newsData = db.NewsDetails.FirstOrDefault(n => n.NewsId == newsId);
 
                 resp.IsActive = newsData.isActive;
                 resp.CreatedTs = newsData.CreatedTs;
@@ -84,10 +84,36 @@ namespace NewsServices.Controllers
                 resp.NewsId = newsData.NewsId;
                 resp.NewsPhotoUrl = newsData.NewsPhotoUrl;
                 resp.NewsTitle = newsData.NewsTitle;
-                
+
             }
             return resp;
         }
 
+        [Route("UpdateNews")]
+        public generalNewsListReponse UpdateNews(NewsUpdateModel updateEntity)
+        {
+            generalNewsListReponse resp = new generalNewsListReponse();
+            newsdbEntities db = new newsdbEntities();
+            {
+                var newsData = db.NewsDetails.FirstOrDefault(n => n.NewsById == updateEntity.NewsId);
+                newsData.NewsTitle = updateEntity.NewsTitle;
+                newsData.NewsDescription = updateEntity.NewsDescription;
+                newsData.CategoryId = updateEntity.CategoryId;
+                db.Entry(newsData).State = EntityState.Modified;
+                int hasUpdate = db.SaveChanges();
+
+                resp.IsActive = newsData.isActive;
+                resp.CreatedTs = newsData.CreatedTs;
+                resp.CategoryId = newsData.CategoryId;
+                resp.CategoryName = Enum.GetName(typeof(NewsCategories), newsData.CategoryId);
+                resp.NewsById = newsData.NewsById;
+                resp.NewsByName = "";
+                resp.NewsDescription = newsData.NewsDescription;
+                resp.NewsId = newsData.NewsId;
+                resp.NewsPhotoUrl = newsData.NewsPhotoUrl;
+                resp.NewsTitle = newsData.NewsTitle;
+                return resp;
+            }
+        }
     }
 }
