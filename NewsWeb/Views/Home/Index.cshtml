@@ -182,7 +182,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="newsImg">News Image</label>
                         <div class="col-md-4">
-                            <input id=" newsimg" name="newsImg" class="input-file form-control" type="file" accept="image/x-png,image/gif,image/jpeg">
+                            <input id="newsImg" name="newsImg" class="input-file form-control" type="file" accept="image/x-png,image/gif,image/jpeg">
                         </div>
 
                     </div>
@@ -221,6 +221,30 @@
         </div>
 
         <div id="PartialViewDiv">
+
+        </div>
+    </div>
+
+    <!-- News Edit Modal -->
+    <div id="NewsEditModal" data-backdrop="static" data-keyboard="false"  class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit News</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="NewsDetailModelContainer">
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
 
         </div>
     </div>

@@ -91,6 +91,8 @@ namespace NewsWeb.Controllers
         {
             return View("_CreateUser");
         }
+
+
         [Authorize]
         [CustomAuthorizer]
         [HttpPost]
@@ -112,6 +114,15 @@ namespace NewsWeb.Controllers
                 return result.UserId != null;
             }
             return success;
+        }
+
+        [Authorize]
+        [CustomAuthorizer]
+        [HttpPost]
+        public ActionResult EditNews(Guid newsId)
+        {
+            generalNewsListReponse newsData = ServerBAL.GetNewsDetails(newsId);
+            return PartialView("_EditNews", newsData);
         }
     }
 }

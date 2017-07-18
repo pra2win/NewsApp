@@ -128,6 +128,35 @@ namespace NewsWeb.Comman
             }
         }
 
+        public static generalNewsListReponse GetNewsDetails(Guid newsId)
+        {
+            generalNewsListReponse res = new generalNewsListReponse();
+            try
+            {
+                var client = new HttpClient();
+                client.BaseAddress = baseUri;
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var content = new StringContent(JsonConvert.SerializeObject(request));
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                var response = client.PostAsync("api/Account/RegisterUser/", content).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    var value = response.Content.ReadAsStringAsync();
+
+                    result = JsonConvert.DeserializeObject<CreateUser>(value.Result);
+                }
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return res;
+        }
+
         public static CreateUser CreateNewUser(CreateUser request)
         {
             CreateUser result = new CreateUser();

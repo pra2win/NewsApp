@@ -42,7 +42,7 @@ namespace NewsServices.Controllers
                         NewsTitle = n.NewsTitle,
                         CategoryName = Enum.GetName(typeof(NewsCategories), n.CategoryId),
                         NewsByName = postedBy,
-                        IsActive=n.isActive
+                        IsActive = n.isActive
                     });
                 }
             }
@@ -55,15 +55,38 @@ namespace NewsServices.Controllers
         {
             newsdbEntities db = new newsdbEntities();
             {
-               var news= db.NewsDetails.FirstOrDefault(n => n.NewsId == newsId);
+                var news = db.NewsDetails.FirstOrDefault(n => n.NewsId == newsId);
                 news.isActive = true;
                 db.Entry(news).State = EntityState.Modified;
-                int hasUpdate=db.SaveChanges();
+                int hasUpdate = db.SaveChanges();
 
                 bool NotifyToAll = true;
                 var noti = Utility.SendFcmNotificationMessage("Plannet News", news.NewsTitle, "NewsApp", news, NotifyToAll);
                 return hasUpdate > 0;
             };
+        }
+
+        [Route("EditNews/{newsId}")]
+        public generalNewsListReponse EditNews(Guid newsId)
+        {
+            generalNewsListReponse resp = new generalNewsListReponse();
+            newsdbEntities db = new newsdbEntities();
+            {
+               var newsData= db.NewsDetails.FirstOrDefault(n => n.NewsId == newsId);
+
+                resp.IsActive = newsData.isActive;
+                resp.CreatedTs = newsData.CreatedTs;
+                resp.CategoryId = newsData.CategoryId;
+                resp.CategoryName = Enum.GetName(typeof(NewsCategories), newsData.CategoryId);
+                resp.NewsById = newsData.NewsById;
+                resp.NewsByName = "";
+                resp.NewsDescription = newsData.NewsDescription;
+                resp.NewsId = newsData.NewsId;
+                resp.NewsPhotoUrl = newsData.NewsPhotoUrl;
+                resp.NewsTitle = newsData.NewsTitle;
+                
+            }
+            return resp;
         }
 
     }

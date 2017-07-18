@@ -213,6 +213,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Home\_NewsList.cshtml" />
     <Content Include="Views\Home\_CreateUser.cshtml" />
+    <Content Include="Views\Home\_EditNews.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
