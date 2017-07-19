@@ -119,9 +119,10 @@ namespace NewsWeb.Controllers
         [Authorize]
         [CustomAuthorizer]
         [HttpPost]
-        public ActionResult EditNews(Guid newsId)
+        public ActionResult EditNews(string newsId)
         {
-            generalNewsListReponse newsData = ServerBAL.EditNewsDetails(newsId);
+            Guid _newsId = Guid.Parse(newsId);
+            generalNewsListReponse newsData = ServerBAL.EditNewsDetails(_newsId);
             return PartialView("_EditNews", newsData);
         }
 

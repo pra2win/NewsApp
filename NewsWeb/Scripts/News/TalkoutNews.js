@@ -278,8 +278,9 @@ function UpdateNews() {
             $("#menu_AddAdmin").removeClass("active");
 
             AddNewsDiv.innerHTML = "";
+           
+            $("#NewsEditModal").modal('hideS');
             alert("News Updated Successfully.Please Approve it.");
-            $("#NewsEditModal").modal('Hide');
 
         },
         error: function (xhr, status) {
