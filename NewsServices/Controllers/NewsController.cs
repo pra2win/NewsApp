@@ -261,7 +261,7 @@ namespace NewsServices.Controllers
             news.NewsId = Guid.NewGuid();
             news.NewsDescription = req.NewsDescription;
             news.NewsById = req.NewsById;
-            news.CreatedTs = req.CreatedTs;
+            news.CreatedTs = Utility.GetIndianDateTime();
             news.CategoryId = req.CategoryId;
             db.NewsDetails.Add(news);
             int saved = db.SaveChanges();
