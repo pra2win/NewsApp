@@ -75,21 +75,18 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="OptUserType">User Type</label>
-            <div class="col-md-4">
-                <select id="OptUserType" name="OptUserType" class="form-control">
-                    <option value="1">User</option>
-                    <option value="2">Admin</option>
-                    @if (Session["UserId"].ToString().ToLower() == "bfd04de2-f6a5-433d-aceb-3ae049d86fe6")
-                    {
-                        <option value="3">Super Admin</option>
-                    }
-                </select>
-                <small>User: Normal user has no access for portal, Admin: Only post news and view news, Super Admin:Craete user and aprove news.</small>
-            </div>
-        </div>
-
+       <div class="form-group">
+           <label class="col-md-4 control-label" for="OptUserType">User Type</label>
+           <div class="col-md-4">
+               <select id="OptUserType" name="OptUserType" class="form-control">
+                   <option value="1">User</option>
+                   <option value="2">Admin</option>
+                   <option value="3">Super Admin</option>
+               </select>
+               <small>User: Normal user has no access for portal, Admin: Only post news and view news, Super Admin:Craete user and aprove news.</small>
+           </div>
+       </div>      
+            
         <!-- Button -->
         <div class="form-group">
             <label class="col-md-4 control-label" for="btnCraeteUser"></label>

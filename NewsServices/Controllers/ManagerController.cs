@@ -57,6 +57,7 @@ namespace NewsServices.Controllers
             {
                 var news = db.NewsDetails.FirstOrDefault(n => n.NewsId == newsId);
                 news.isActive = true;
+                news.CreatedTs = Utility.GetIndianDateTime();
                 db.Entry(news).State = EntityState.Modified;
                 int hasUpdate = db.SaveChanges();
 
@@ -95,7 +96,7 @@ namespace NewsServices.Controllers
             generalNewsListReponse resp = new generalNewsListReponse();
             newsdbEntities db = new newsdbEntities();
             {
-                var newsData = db.NewsDetails.FirstOrDefault(n => n.NewsById == updateEntity.NewsId);
+                var newsData = db.NewsDetails.FirstOrDefault(n => n.NewsId == updateEntity.NewsId);
                 newsData.NewsTitle = updateEntity.NewsTitle;
                 newsData.NewsDescription = updateEntity.NewsDescription;
                 newsData.CategoryId = updateEntity.CategoryId;
