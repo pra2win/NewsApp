@@ -50,13 +50,14 @@ namespace NewsServices.Controllers
             return response;
         }
 
-        [Route("ConfirmNews/{newsId}")]
-        public bool ConfirmNews(Guid newsId)
+        [Route("ConfirmNews/{newsId}/{notify}")]
+        public bool ConfirmNews(Guid newsId, bool notify)
         {
             newsdbEntities db = new newsdbEntities();
             {
                 var news = db.NewsDetails.FirstOrDefault(n => n.NewsId == newsId);
                 news.isActive = true;
+                news.IsNotify = notify;
                 news.CreatedTs = Utility.GetIndianDateTime();
                 db.Entry(news).State = EntityState.Modified;
                 int hasUpdate = db.SaveChanges();
