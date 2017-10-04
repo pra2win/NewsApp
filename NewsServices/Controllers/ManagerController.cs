@@ -117,5 +117,37 @@ namespace NewsServices.Controllers
                 return resp;
             }
         }
+
+        [Route("GetUsers")]
+        public List<User> GetUsers()
+        {
+            var users = new List<User>();
+            newsdbEntities db = new newsdbEntities();
+            var _users = db.UserDetails.ToList();
+
+            foreach (var u in _users)
+            {
+                var news = db.NewsDetails.Where(n => n.NewsById == u.UserRegistrationId);
+                users.Add(new Models.User()
+                {
+                    creatTs = u.creatTs,
+                    EmailId = u.EmailId,
+                    FirstName = u.FirstName,
+                    Gender = u.Gender,
+                    isActive = u.isActive,
+                    LastName = u.LastName,
+                    MobileNo = u.MobileNo,
+                    ThumbnailUrl = u.ThumbnailUrl,
+                    UserId = u.UserId,
+                    userType = u.userType,
+                    UserRegistrationId = u.UserRegistrationId,
+                    TotalNewsApproved = news.Where(n => n.isActive == true).Count(),
+                    TotalNewsUploaded = news.Count()
+                });
+            }
+
+            return users;
+
+        }
     }
 }
