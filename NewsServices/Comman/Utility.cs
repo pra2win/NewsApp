@@ -132,7 +132,7 @@ namespace NewsServices.Comman
             return localTime;
         }
 
-        public static async Task<bool> SendFcmNotificationMessage(string title, string boday, string DevToken, dynamic dataObj, bool Notify)
+        public static async Task<bool> SendFcmNotificationMessage(string title, string boday, string DevToken, dynamic dataObj)
         {
 
             //send fcm notification

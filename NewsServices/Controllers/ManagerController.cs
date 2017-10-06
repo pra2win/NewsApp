@@ -62,8 +62,18 @@ namespace NewsServices.Controllers
                 db.Entry(news).State = EntityState.Modified;
                 int hasUpdate = db.SaveChanges();
 
-                bool NotifyToAll = true;
-                var noti = Utility.SendFcmNotificationMessage("Plannet News", news.NewsTitle, "NewsApp", news, NotifyToAll);
+                dynamic dataTosend = new object();
+                dataTosend.CategoryId = news.CategoryId;
+                dataTosend.NewsId = news.NewsId;
+                dataTosend.NewsPhotoUrl = news.NewsPhotoUrl;
+                dataTosend.NewsDescription = news.NewsDescription;
+                dataTosend.CreatedTs = news.CreatedTs;
+                dataTosend.NewsTitle = news.NewsTitle;
+
+                if (notify)
+                {
+                    var noti = Utility.SendFcmNotificationMessage("TalkOut", news.NewsTitle, "NewsApp", dataTosend);
+                }
                 return hasUpdate > 0;
             };
         }
